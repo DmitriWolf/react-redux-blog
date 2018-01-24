@@ -9,7 +9,7 @@ class RichTextEditor extends React.Component {
     this.state = {editorState: EditorState.createEmpty()};
 
     this.focus = () => this.refs.editor.focus();
-    this.onChange = (editorState) => this.setState({editorState});
+    this.onChange = this.onChange.bind(this);
 
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.onTab = this._onTab.bind(this);
@@ -47,6 +47,18 @@ class RichTextEditor extends React.Component {
         inlineStyle
       )
     );
+  }
+
+  onChange(editorState) {
+  	// when the editor decides it is a good time to make an undo trace, it's a good time for us to save.
+  	const previousUndoStackSize = this.state.editorState._immutable.undoStack.size;
+  	const nextUndoStackSize = editorState._immutable.undoStack.size;
+  	if(previousUndoStackSize !== nextUndoStackSize) {
+  		// const currentContent = editorState.getCurrentContent();
+  		// send currentContent to Redux and maybe save to DB
+  	} 
+
+  	this.setState({editorState});
   }
 
   render() {
