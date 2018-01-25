@@ -1,6 +1,6 @@
 import React from 'react';
 import {Editor, EditorState, RichUtils} from 'draft-js';
-import '../css/RichEditor.css';
+// import '../css/RichEditor.css';
 
 class RichEditor extends React.Component {
   constructor(props) {
@@ -62,7 +62,6 @@ class RichEditor extends React.Component {
   			id: this.state.contentId,
   			content: currentContent,
   		};
-  		console.log('sending ', content);
   		this.props.addContent(content);
   	} 
 
