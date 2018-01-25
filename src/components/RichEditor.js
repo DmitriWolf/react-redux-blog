@@ -1,12 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Editor, EditorState, RichUtils} from 'draft-js';
-import '../css/RichTextEditor.css';
+import '../css/RichEditor.css';
 
-class RichTextEditor extends React.Component {
+class RichEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {editorState: EditorState.createEmpty()};
+    this.state = {
+    	editorState: EditorState.createEmpty(),
+    	contentId: Math.random().toString(36).substring(7),
+    };
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = this.onChange.bind(this);
@@ -54,8 +56,14 @@ class RichTextEditor extends React.Component {
   	const previousUndoStackSize = this.state.editorState._immutable.undoStack.size;
   	const nextUndoStackSize = editorState._immutable.undoStack.size;
   	if(previousUndoStackSize !== nextUndoStackSize) {
-  		// const currentContent = editorState.getCurrentContent();
+  		const currentContent = editorState.getCurrentContent();
   		// send currentContent to Redux and maybe save to DB
+  		const content = {
+  			id: this.state.contentId,
+  			content: currentContent,
+  		};
+  		console.log('sending ', content);
+  		this.props.addContent(content);
   	} 
 
   	this.setState({editorState});
@@ -202,4 +210,4 @@ const InlineStyleControls = (props) => {
   );
 };
 
-export default RichTextEditor;
+export default RichEditor;

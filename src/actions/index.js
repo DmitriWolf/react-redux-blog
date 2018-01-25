@@ -4,3 +4,9 @@ export const addQuote = quote => {
     quote,
   };
 }
+export const addContent = content => {
+  return {
+    type: 'ADD_CONTENT',
+    content,
+  };
+}
