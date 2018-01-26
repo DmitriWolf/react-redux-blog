@@ -12,25 +12,35 @@ class PageView extends Component {
 		};
 	}
 
-	toggleEdit = () => {
-		this.setState({ editMode: !this.state.editMode });
+  editContent = () => {
+    this.setState({ editMode: true });
+  }
+
+	stopEditingContent = () => {
+		this.setState({ editMode: false });
 	}
 
-  render() {
-		const editToggleButtonLabel = (this.state.editMode) ? 'View Draft' : 'Edit';
-		
-    return (
-    	<div className="view-area">
-    		<button 
-    			className="edit-mode"
-    			onClick={this.toggleEdit}
-    		>
-    			{editToggleButtonLabel}
-    		</button>
+  render() {		
+    const pageContent = () => {
+      if(this.state.editMode) {
+        return (
+          <div>
+            <button className="RichEditor-styleButton RichEditor-activeButton edit-mode" onClick={this.stopEditingContent}>
+              Stop Editing
+            </button>
+            <RichEditorContainer /> 
+          </div>
+        );
+      } else {
+        return (
+          <ContentDisplayContainer />
+        );
+      }
+    }
 
-    		{
-    			(this.state.editMode) ? <RichEditorContainer /> : <ContentDisplayContainer />
-    		}
+    return (
+    	<div className="view-area" onClick={(this.state.editMode) ? null : this.editContent}>
+        {pageContent()}
     	</div>
     );
   }

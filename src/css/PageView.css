@@ -1,15 +1,5 @@
-.view-area {
-	position: relative;
-	min-height: 20rem;
-}
-
 button.edit-mode {
-	position: absolute;
-	top: 1rem;
-	right: 1rem;
-	width: 9rem;
-	height: 3rem;
-	margin: 2rem;
-	font-size: 1.2rem;
-	line-height: 1.2rem;
+	font-size: 1rem;
+	padding-bottom: .8rem;
+	border: none;
 }
