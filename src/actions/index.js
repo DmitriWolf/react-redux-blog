@@ -2,13 +2,6 @@ import { convertToRaw } from 'draft-js';
 import { Cookies } from 'react-cookie';
 var cookies = new Cookies();
 
-export const addQuote = quote => {
-  return {
-    type: 'ADD_QUOTE',
-    quote,
-  };
-}
-
 export const addContent = content => {
 	const currentContent = content.content;
   const rawContent = convertToRaw(currentContent);

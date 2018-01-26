@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { addContent } from '../actions'
 import ContentDisplay from '../components/ContentDisplay';
 
 const mapStateToProps = state => {
@@ -8,14 +7,6 @@ const mapStateToProps = state => {
   return { content };
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addContent: quote => {
-      dispatch( addContent( quote ) )
-    }
-  }
-}
-
-const ContentDisplayContainer = connect( mapStateToProps, mapDispatchToProps )(ContentDisplay)
+const ContentDisplayContainer = connect( mapStateToProps )(ContentDisplay)
 
 export default ContentDisplayContainer
