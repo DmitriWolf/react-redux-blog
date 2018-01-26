@@ -1,5 +1,5 @@
-import { instanceOf } from 'prop-types';
-import { withCookies, Cookies } from 'react-cookie';
+import { convertToRaw } from 'draft-js';
+import { Cookies } from 'react-cookie';
 var cookies = new Cookies();
 
 export const addQuote = quote => {
@@ -10,12 +10,14 @@ export const addQuote = quote => {
 }
 
 export const addContent = content => {
+	const currentContent = content.content;
+  const rawContent = convertToRaw(currentContent);
+
 	const cookieOptions = {
 		path: '/',
 		maxAge: 5256000, // 2 months
 	};
-
-	cookies.set('content', content.content, cookieOptions);
+	cookies.set('content', rawContent, cookieOptions);
 
   return {
     type: 'ADD_CONTENT',

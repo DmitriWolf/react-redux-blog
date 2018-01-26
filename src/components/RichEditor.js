@@ -1,12 +1,12 @@
 import React from 'react';
 import {Editor, EditorState, RichUtils} from 'draft-js';
-// import '../css/RichEditor.css';
 
 class RichEditor extends React.Component {
   constructor(props) {
     super(props);
+    console.log('RichEditor-editor - props.content: ', props.content);
     this.state = {
-    	editorState: EditorState.createEmpty(),
+    	editorState: EditorState.createWithContent(props.content),
     	contentId: Math.random().toString(36).substring(7),
     };
 
@@ -57,11 +57,11 @@ class RichEditor extends React.Component {
   	const nextUndoStackSize = editorState._immutable.undoStack.size;
   	if(previousUndoStackSize !== nextUndoStackSize) {
   		const currentContent = editorState.getCurrentContent();
-  		// send currentContent to Redux and maybe save to DB
   		const content = {
   			id: this.state.contentId,
   			content: currentContent,
   		};
+
   		this.props.addContent(content);
   	} 
 

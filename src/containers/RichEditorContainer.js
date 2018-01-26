@@ -3,9 +3,9 @@ import { addContent } from '../actions'
 import RichEditor from '../components/RichEditor'
 
 const mapStateToProps = state => {
-  return {
-    content: state.content,
-  }
+  const content = state.content; 
+
+  return { content };
 }
 
 const mapDispatchToProps = dispatch => {
@@ -16,9 +16,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const RichEditorContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RichEditor)
+const RichEditorContainer = connect( mapStateToProps, mapDispatchToProps )(RichEditor)
 
 export default RichEditorContainer
