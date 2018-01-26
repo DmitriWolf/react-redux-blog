@@ -4,7 +4,7 @@ import {Editor, EditorState, RichUtils} from 'draft-js';
 class RichEditor extends React.Component {
   constructor(props) {
     super(props);
-    console.log('RichEditor-editor - props.content: ', props.content);
+
     this.state = {
     	editorState: EditorState.createWithContent(props.content),
     	contentId: Math.random().toString(36).substring(7),
