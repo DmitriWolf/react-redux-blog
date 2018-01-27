@@ -1,16 +1,6 @@
-import { Cookies } from 'react-cookie';
-import {EditorState, convertFromRaw} from 'draft-js';
+import { loadCurrentContent } from '../utils';
 
-var cookies = new Cookies();
-var cookieData = cookies.get('content');
-let initialEditorState;
-
-if(cookieData && cookieData.blocks) {
-	initialEditorState = convertFromRaw(cookieData);
-} else {
-	const emptyEditorState = EditorState.createEmpty();
-	initialEditorState = emptyEditorState.getCurrentContent();
-}
+const initialEditorState = loadCurrentContent();
 
 const content = (state = initialEditorState, action) => {
   switch (action.type) {
