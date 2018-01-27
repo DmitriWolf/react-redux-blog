@@ -1,3 +1,7 @@
+.view-area {
+	position: relative;
+}
+
 button.edit-mode {
 	font-size: 1rem;
 	padding-bottom: .8rem;
