@@ -25,7 +25,7 @@ class PageView extends Component {
       if(this.state.editMode) {
         return (
           <div>
-            <button className="RichEditor-styleButton RichEditor-activeButton edit-mode" onClick={this.stopEditingContent}>
+            <button className="edit-mode" onClick={this.stopEditingContent}>
               Stop Editing
             </button>
             <RichEditorContainer /> 
