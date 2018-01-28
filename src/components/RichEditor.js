@@ -42,7 +42,7 @@ class RichEditor extends React.Component {
 
     this.state = {
     	editorState: EditorState.createWithContent(props.content),
-    	contentId: Math.random().toString(36).substring(7),
+    	contentId: 'abc123', // Math.random().toString(36).substring(7),
     };
 
     this.focus = () => this.refs.editor.focus();

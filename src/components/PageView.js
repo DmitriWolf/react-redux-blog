@@ -8,7 +8,7 @@ class PageView extends Component {
 		super(props);
 
 		this.state = {
-			editMode: false,
+			editMode: true,
 		};
 	}
 
