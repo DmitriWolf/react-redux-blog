@@ -16,25 +16,33 @@ const storePage = (id, currentContent) => {
 	console.log('storePage: ', id, currentContent);
 }
 
-export const saveCurrentContent = (content) => {
-  const id = content.id;
-  const currentContent = convertToRaw(content.content);
+export const saveCurrentContent = (id, content) => {
+  const currentContent = convertToRaw(content);
   const page = {
   	currentContent,
-  	home: true,
+  	published: true,
   };
   storePage(id, page);
 	console.log('saveCurrentContent: ', id, currentContent);
 }
 
-export const addNewPage = () => {
+export const createAndSaveNewPage = () => {
 	const id = Math.random().toString(36).substring(7);
-	const currentContent = getEmptyPageContents();
-  storePage(id, currentContent);
-  return id;
+	const currentContent = convertToRaw(getEmptyPageContents());
+	const page = {
+		currentContent,
+		published: true,
+	};
+  storePage(id, page);
+  const pageObject = {};
+  pageObject[id] = {
+  	currentContent,
+  	published: true,
+  };
+  return pageObject;
 }
 
-export const loadCurrentContent = (id = 'abc123') => {// existing: 
+export const loadCurrentContent = (id = '3c3n5q') => {// existing: 
 
 	var cookieData = cookies.getAll();
 	console.log('cookieData: ', cookieData);
@@ -44,8 +52,8 @@ export const loadCurrentContent = (id = 'abc123') => {// existing:
 
 	pages: {
 		id: {
-			editorState,
-			status: draft / published,
+			currentContent / editorState,
+			published: true,
 			includeInMenu: true,
 		},
 		...
@@ -66,33 +74,30 @@ export const loadCurrentContent = (id = 'abc123') => {// existing:
 export const loadAllContent = () => {// existing: 
 
 	var cookieData = cookies.getAll();
-	console.log('cookieData: ', cookieData);
+	// console.log('loadAllContent - cookieData: ', cookieData);
 	console.log('');
 
-	/* new desired state: 
-
-	pages: {
-		id: {
-			editorState,
-			status: draft / published,
-			includeInMenu: true,
-		},
-		...
-	},
-	*/
 
 	let initialEditorState;
 
-	if(cookieData && cookieData.blocks) {
-		console.log('What is in cookieData by object: ');
-		Object.keys(cookieData).map(p => {
-			console.log(p, ': ', cookieData[p]);
-			return cookieData[p];
-		});
+	if(cookieData) {
+		// console.log('What is in cookieData by object: ');
+		return Object.keys(cookieData).reduce((acc, pageId) => {
+			// console.log('pageId: ', pageId);
+			// console.log('cookieData[pageId]: ', cookieData[pageId]);
+			acc[pageId] = convertFromRaw(cookieData[pageId].currentContent);
+			return acc;
+		}, {});
 
-		initialEditorState = convertFromRaw(cookieData);
 	} else {
 		initialEditorState = getEmptyPageContents();
 	}
 	return initialEditorState;
 }
+
+export const contentIsPresent = (content) => {
+    if(content && Object.keys(content).length > 0) {
+      return true;
+    }
+    return false;
+  }

@@ -1,7 +1,8 @@
 import React from 'react';
 import Editor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils} from 'draft-js';
+import { RichUtils} from 'draft-js';
 import createInlineToolbarPlugin, { Separator } from 'draft-js-inline-toolbar-plugin';
+import { contentIsPresent } from '../utils';
 import '../css/InlineToolbarPlugin.css';
 import {
   ItalicButton,
@@ -17,7 +18,6 @@ import {
   CodeBlockButton,
 } from 'draft-js-buttons';
 
-// const inlineToolbarPlugin = createInlineToolbarPlugin();
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   structure: [
     HeadlineOneButton,
@@ -28,7 +28,6 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     UnderlineButton,
     CodeButton,
     Separator,
-    // HeadlinesButton,
     UnorderedListButton,
     OrderedListButton,
     BlockquoteButton,
@@ -40,9 +39,14 @@ class RichEditor extends React.Component {
   constructor(props) {
     super(props);
 
+    if (!this.props.currentPageId || !contentIsPresent(this.props.content)) {
+      console.log('missing!"')
+      return;
+    }
+
     this.state = {
-    	editorState: EditorState.createWithContent(props.content),
-    	contentId: 'abc123', // Math.random().toString(36).substring(7),
+    	editorState: props.content,
+    	contentId: props.id, // Math.random().toString(36).substring(7),
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -97,24 +101,37 @@ class RichEditor extends React.Component {
   			content: currentContent,
   		};
 
-  		this.props.addContent(content);
+  		this.props.saveContent(content);
   	} 
 
   	this.setState({editorState});
   }
 
   render() {
-    const {editorState} = this.state;
+    if (!this.props.currentPageId || !contentIsPresent(this.props.content)) {
+      console.log('missing!"')
+      return (
+        <div className="loading">
+          <h1>Editor is loading your content</h1>
+        </div>
+      );
+    }
+    console.log('')
+    console.log('RichEditor - render - this.props: ', this.props);
+    console.log('RichEditor - render - this.props.content: ', this.props.content);
+    // const {editorState} = this.state;
+    const editorState = this.props.content;
+    console.log('RichEditor - render - editorState: ', editorState);
     const { InlineToolbar } = inlineToolbarPlugin;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
     let className = 'RichEditor-editor';
-    var contentState = editorState.getCurrentContent();
-    if (!contentState.hasText()) {
-      if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-        className += ' RichEditor-hidePlaceholder';
-      }
-    }
+    // var contentState = editorState.getCurrentContent();
+    // if (!contentState.hasText()) {
+    //   if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+    //     className += ' RichEditor-hidePlaceholder';
+    //   }
+    // }
 
     return (
       <div className="RichEditor-root">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PageView from './components/PageView';
+import PageViewContainer from './containers/PageViewContainer';
 import './css/RichEditor.css';
 import './css/App.css';
 
@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div className="root">
-        <PageView />
+        <PageViewContainer />
       </div>
     );
   }

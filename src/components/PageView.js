@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ContentDisplayContainer from '../containers/ContentDisplayContainer';
 import RichEditorContainer from '../containers/RichEditorContainer';
+import { contentIsPresent } from '../utils';
 import '../css/PageView.css';
 
 class PageView extends Component {
@@ -9,37 +10,99 @@ class PageView extends Component {
 
 		this.state = {
 			editMode: true,
+      currentPage: 'zero',
 		};
 	}
 
+  componentDidMount() {
+    if(!contentIsPresent(this.props.content)) {
+      this.props.loadInitialContent();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.state.currentPage === 'zero' && contentIsPresent(nextProps.content)) {
+      this.setState({ currentPage: Object.keys(nextProps.content)[0] });
+    }
+  }
+
   editContent = () => {
     this.setState({ editMode: true });
+  }
+
+  addNewPage = () => {
+    this.props.addNewPage();
   }
 
 	stopEditingContent = () => {
 		this.setState({ editMode: false });
 	}
 
+  selectPage = pageId => {
+    // console.log('set pageId to ', pageId);
+    this.setState({ currentPage: pageId });
+  }
+
   render() {		
+    // console.log('PageVewi - render - this.props: ', this.props);
+
+    if(!contentIsPresent(this.props.content)) {
+      return (
+        <div className="loading">
+          <h1>Loading...</h1>
+        </div>
+      );
+    }
+
+    const menuContent = () => {
+      return (
+        <div className="nav-bar">
+          <ul>
+            {
+              Object.keys(this.props.content).map(pageId => {
+                return (
+                  <li
+                    key={`link-${pageId}`} 
+                    onClick={() => this.selectPage(pageId)} 
+                    value={pageId}
+                  >
+                    {pageId}
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+      );
+    }
+
     const pageContent = () => {
       if(this.state.editMode) {
         return (
           <div>
-            <button className="edit-mode" onClick={this.stopEditingContent}>
+            <button className="edit-button edit-mode" onClick={this.stopEditingContent}>
               Stop Editing
             </button>
-            <RichEditorContainer /> 
+            <button className="edit-button new-page" onClick={this.addNewPage}>
+              Add New Page
+            </button>
+            <RichEditorContainer 
+              currentPageId={this.state.currentPage}
+            /> 
           </div>
         );
       } else {
         return (
-          <ContentDisplayContainer />
+          <ContentDisplayContainer
+            currentPage={this.state.currentPage}
+          /> 
         );
       }
     }
 
     return (
     	<div className="view-area" onClick={(this.state.editMode) ? null : this.editContent}>
+        {menuContent()}
         {pageContent()}
     	</div>
     );
