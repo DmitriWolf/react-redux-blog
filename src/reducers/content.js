@@ -4,15 +4,14 @@ const content = (state = {}, action) => {
   		return action.pages;
 
     case 'SAVE_CONTENT':
-    	console.log('SAVE_CONTENT - action: ', action);
-     return state;
+			console.log('SAVE_CONTENT - action: ', action);
+			return state;
 
     case 'ADD_NEW_PAGE':
-    	// const newState = Object.assign({}, state);
-    	// newState[action.id] = 
-     // return action.content.content;
-     console.log('action: ', action);
-     return state;
+			const newState = Object.assign({}, state);
+			const newPageId = Object.keys(action.pageObject)[0];
+			newState[newPageId] = action.pageObject[newPageId];
+			return newState;
 
     default:
       return state
