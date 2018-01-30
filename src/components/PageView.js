@@ -10,7 +10,7 @@ class PageView extends Component {
 
 		this.state = {
 			editMode: true,
-      currentPage: 'zero',
+      currentPage: props.pageId,
 		};
 	}
 
@@ -21,8 +21,8 @@ class PageView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.state.currentPage === 'zero' && contentIsPresent(nextProps.content)) {
-      this.setState({ currentPage: Object.keys(nextProps.content)[0] });
+    if(this.props.pageId !== nextProps.pageId) {
+      this.setState({ currentPage: nextProps.pageId});
     }
   }
 
@@ -39,14 +39,12 @@ class PageView extends Component {
 	}
 
   selectPage = pageId => {
-    // console.log('set pageId to ', pageId);
+    console.log('set pageId to ', pageId);
     this.setState({ currentPage: pageId });
   }
 
   render() {		
-    // console.log('PageVewi - render - this.props: ', this.props);
-
-    if(!contentIsPresent(this.props.content)) {
+    if(!this.props.pageId) {
       return (
         <div className="loading">
           <h1>Loading...</h1>
@@ -54,27 +52,27 @@ class PageView extends Component {
       );
     }
 
-    const menuContent = () => {
-      return (
-        <div className="nav-bar">
-          <ul>
-            {
-              Object.keys(this.props.content).map(pageId => {
-                return (
-                  <li
-                    key={`link-${pageId}`} 
-                    onClick={() => this.selectPage(pageId)} 
-                    value={pageId}
-                  >
-                    {pageId}
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </div>
-      );
-    }
+    // const menuContent = () => {
+    //   return (
+    //     <div className="nav-bar">
+    //       <ul>
+    //         {
+    //           Object.keys(this.props.content).map(pageId => {
+    //             return (
+    //               <li
+    //                 key={`link-${pageId}`} 
+    //                 onClick={() => this.selectPage(pageId)} 
+    //                 value={pageId}
+    //               >
+    //                 {pageId}
+    //               </li>
+    //             );
+    //           })
+    //         }
+    //       </ul>
+    //     </div>
+    //   );
+    // }
 
     const pageContent = () => {
       if(this.state.editMode) {
@@ -102,7 +100,6 @@ class PageView extends Component {
 
     return (
     	<div className="view-area" onClick={(this.state.editMode) ? null : this.editContent}>
-        {menuContent()}
         {pageContent()}
     	</div>
     );

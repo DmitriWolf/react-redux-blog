@@ -1,7 +1,7 @@
 const content = (state = {}, action) => {
   switch (action.type) {
   	case 'LOAD_INITIAL_CONTENT': 
-  		return action.content;
+  		return action.pages;
 
     case 'SAVE_CONTENT':
     	console.log('SAVE_CONTENT - action: ', action);
@@ -11,7 +11,7 @@ const content = (state = {}, action) => {
     	// const newState = Object.assign({}, state);
     	// newState[action.id] = 
      // return action.content.content;
-     console.log('action.pageObject: ', action.pageObject);
+     console.log('action: ', action);
      return state;
 
     default:

@@ -8,13 +8,14 @@ const mapStateToProps = state => {
   if(!contentIsPresent) {
   	return { content };
   }
-  console.log('PageViewContainer - mapStateToProps - state: ', state);
-  const pageList = Object.keys(state.content).reduce((acc, pageId) => {
-  	acc[pageId] = Object.assign({}, state.content[pageId]);
-  	return acc;
-  }, {});
+  const pageId = Object.keys(state.content)[0];
 
-  return { content, pageList };
+  // const pageList = Object.keys(state.content).reduce((acc, pageId) => {
+  // 	acc[pageId] = Object.assign({}, state.content[pageId]);
+  // 	return acc;
+  // }, {});
+
+  return { pageId };
 }
 
 const mapDispatchToProps = dispatch => {

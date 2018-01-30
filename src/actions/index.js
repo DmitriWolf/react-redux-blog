@@ -6,24 +6,22 @@ import {
 } from '../utils';
 
 export const loadInitialContent = () => {
-	console.log('');
-	console.log('loadInitialContent');
-	let allContent = loadAllContent();
-	console.log('allContent: ', allContent);
-	if(!contentIsPresent(allContent)) {
-		allContent = createAndSaveNewPage();
-	}
-  
+	const pages = contentIsPresent(loadAllContent()) ? loadAllContent() : createAndSaveNewPage();
+
   return {
     type: 'LOAD_INITIAL_CONTENT',
-    content: allContent,
+    pages,
   };
 }
 
-export const saveContent = (pageId, content) => {
-	saveCurrentContent(pageId, content);
+export const saveContent = (content) => {
+	saveCurrentContent(content.id, content.content);
 	const page = {};
-	page[pageId] = content;
+
+  page[content.id] = {
+  	currentContents: content.content,
+  	published: true,
+  };
 
   return {
     type: 'SAVE_CONTENT',
@@ -32,9 +30,7 @@ export const saveContent = (pageId, content) => {
 }
 
 export const addNewPage = () => {
-	console.log('addNewPage');
 	const pageObject = createAndSaveNewPage();
-	console.log('addNewPage - pageObject: ', pageObject);
 
   return {
     type: 'ADD_NEW_PAGE',

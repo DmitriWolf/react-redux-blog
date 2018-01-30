@@ -39,14 +39,14 @@ class RichEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.currentPageId || !contentIsPresent(this.props.content)) {
-      console.log('missing!"')
-      return;
-    }
+    // if (!this.props.currentPageId || !contentIsPresent(this.props.editorContent)) {
+    //   console.log('missing!"')
+    //   return;
+    // }
 
     this.state = {
-    	editorState: props.content,
-    	contentId: props.id, // Math.random().toString(36).substring(7),
+    	editorState: props.editorContent,
+    	contentId: props.id, 
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -96,11 +96,11 @@ class RichEditor extends React.Component {
   	const nextUndoStackSize = editorState._immutable.undoStack.size;
   	if(previousUndoStackSize !== nextUndoStackSize) {
   		const currentContent = editorState.getCurrentContent();
+      const contentId = this.props.currentPageId;
   		const content = {
-  			id: this.state.contentId,
+  			id: contentId,
   			content: currentContent,
   		};
-
   		this.props.saveContent(content);
   	} 
 
@@ -108,7 +108,9 @@ class RichEditor extends React.Component {
   }
 
   render() {
-    if (!this.props.currentPageId || !contentIsPresent(this.props.content)) {
+    const editorState = this.state.editorState;
+    // if (!this.props.currentPageId || !contentIsPresent(editorState)) {
+    if (!contentIsPresent(editorState)) {
       console.log('missing!"')
       return (
         <div className="loading">
@@ -116,22 +118,11 @@ class RichEditor extends React.Component {
         </div>
       );
     }
-    console.log('')
-    console.log('RichEditor - render - this.props: ', this.props);
-    console.log('RichEditor - render - this.props.content: ', this.props.content);
-    // const {editorState} = this.state;
-    const editorState = this.props.content;
-    console.log('RichEditor - render - editorState: ', editorState);
+    // const editorState = this.props.editorContent;
     const { InlineToolbar } = inlineToolbarPlugin;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
     let className = 'RichEditor-editor';
-    // var contentState = editorState.getCurrentContent();
-    // if (!contentState.hasText()) {
-    //   if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-    //     className += ' RichEditor-hidePlaceholder';
-    //   }
-    // }
 
     return (
       <div className="RichEditor-root">

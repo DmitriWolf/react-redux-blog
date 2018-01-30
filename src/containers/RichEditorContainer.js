@@ -4,19 +4,21 @@ import { EditorState } from 'draft-js';
 import RichEditor from '../components/RichEditor'
 
 const mapStateToProps = (state, { currentPageId }) => {
-	console.log('')
-	console.log('RichEditorContainer - mstp - state: ', state);
-	console.log('currentPageId: ', currentPageId);
-  const content = EditorState.createWithContent(state.content[currentPageId].currentContent); 
-	console.log('content: ', content);
+  const editorContent = EditorState.createWithContent(state.content[currentPageId].currentContents);
 
-  return { content, currentPageId };
+  return { editorContent, currentPageId };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveContent: (content, currentPageId) => {
-      dispatch(saveContent(currentPageId, content));
+    saveContent: (content) => {
+      /*
+            const content = {
+              id: this.state.contentId,
+              content: currentContent,
+            };
+      */
+      dispatch(saveContent(content));
     }
   }
 }
