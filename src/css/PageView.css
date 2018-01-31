@@ -2,18 +2,45 @@
 	position: relative;
 }
 
-button.edit-mode {
+button.edit-mode, button.new-page{
 	position: absolute;
-	right: 20px;
+	top: 50px;
+}
+
+button.edit-mode, button.new-page, .nav-bar li {
 	font-size: 1rem;
 	padding-bottom: .8rem;
-	border: none;
 	padding: 8px 12px;
 	border: 2px solid #ddd;
 	cursor: pointer;
 	transition: .1s;
+	z-index: 5;
 }
 
-button.edit-mode:hover {
-	transform: scale(1.1, 1.05);
+button.edit-mode {
+	right: 20px;
 }
+
+button.new-page {
+	right: 200px;
+}
+
+button.edit-mode:hover, button.new-page:hover, .nav-bar li:hover {
+	/*transform: scale(1.1, 1.05);*/
+	transform: translate(0, -1px);
+	background: #ddd;
+	background: #ddd;
+}
+
+.nav-bar ul {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.nav-bar li {
+	list-style: none;
+	float: left;
+	margin: .3rem .4rem .3rem 0;
+}
+

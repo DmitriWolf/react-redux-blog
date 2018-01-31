@@ -41,7 +41,7 @@ class PageView extends Component {
     const menuContent = () => {
       return (
         <div className="nav-bar">
-          <ul>
+          <ul className="clearfix">
             {
               this.state.allPageIds.map(pageId => {
                 return (

@@ -77,3 +77,14 @@ blockquote {
 .activeButton {
   color: #5890ff;
 }
+
+.clearfix {
+  overflow: auto;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
