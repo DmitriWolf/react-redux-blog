@@ -37,6 +37,14 @@ class PageView extends Component {
     this.setState({ currentPageId: pageId });
   }
 
+  stopEditingContent = () => {
+    this.setState({ editMode: false });
+  }
+
+  editComponent = () => {
+    this.setState({ editMode: true});
+  }
+
   render() {		
     const menuContent = () => {
       return (
@@ -81,6 +89,8 @@ class PageView extends Component {
         {editButtons()}
         <ComponentView
           currentPageId={this.state.currentPageId}
+          editMode={this.state.editMode}
+          editComponent={this.editComponent}
         /> 
       </div>
     );

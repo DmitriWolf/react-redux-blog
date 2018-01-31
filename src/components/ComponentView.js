@@ -4,22 +4,11 @@ import RichEditorContainer from '../containers/RichEditorContainer';
 import '../css/ComponentView.css';
 
 class ComponentView extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			editMode: true,
-		};
-	}
 
 
   editContent = () => {
-    this.setState({ editMode: true });
+    this.props.editComponent();
   }
-
-	stopEditingContent = () => {
-		this.setState({ editMode: false });
-	}
 
   render() {		
   	const currentPageId = this.props.currentPageId;
@@ -33,7 +22,7 @@ class ComponentView extends Component {
     }
 
     const pageContent = () => {
-      if(this.state.editMode) {
+      if(this.props.editMode) {
         return (
           <RichEditorContainer 
             currentPageId={currentPageId}
@@ -49,7 +38,7 @@ class ComponentView extends Component {
     }
 
     return (
-    	<div className="view-area" onClick={(this.state.editMode) ? null : this.editContent}>
+    	<div className="view-area" onClick={(this.props.editMode) ? null : this.editContent}>
         {pageContent()}
     	</div>
     );

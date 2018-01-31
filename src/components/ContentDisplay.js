@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {stateToHTML} from 'draft-js-export-html';
 
 class ContentDisplay extends Component {
   render() {
-		const content = Object.keys(this.props.content).length > 0 ? stateToHTML(this.props.content) : null;
+		const content = this.props.content;
  		const htmlContent = () => { return {__html: content }; };
 
     return (

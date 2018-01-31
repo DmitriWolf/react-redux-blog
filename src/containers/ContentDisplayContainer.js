@@ -1,8 +1,10 @@
 import { connect } from 'react-redux'
 import ContentDisplay from '../components/ContentDisplay';
+import {stateToHTML} from 'draft-js-export-html';
 
 const mapStateToProps = (state, { currentPageId }) => {
-	const content = state.content[currentPageId]; 
+	const currentContents = state.content[currentPageId].currentContents; 
+	const content = stateToHTML(currentContents); 
       
   return { content };
 }
