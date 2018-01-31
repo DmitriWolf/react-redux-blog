@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
 import ContentDisplay from '../components/ContentDisplay';
 
-const mapStateToProps = state => {
-	const content = state.content; 
-
+const mapStateToProps = (state, { currentPageId }) => {
+	const content = state.content[currentPageId]; 
+      
   return { content };
 }
 

@@ -8,14 +8,10 @@ const mapStateToProps = state => {
   if(!contentIsPresent) {
   	return { content };
   }
-  const pageId = Object.keys(state.content)[0];
+  const allPageIds = Object.keys(state.content);
+  const currentPageId = allPageIds[0];
 
-  // const pageList = Object.keys(state.content).reduce((acc, pageId) => {
-  // 	acc[pageId] = Object.assign({}, state.content[pageId]);
-  // 	return acc;
-  // }, {});
-
-  return { pageId };
+  return { allPageIds, currentPageId };
 }
 
 const mapDispatchToProps = dispatch => {

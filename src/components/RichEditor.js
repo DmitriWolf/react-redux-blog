@@ -39,11 +39,6 @@ class RichEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    // if (!this.props.currentPageId || !contentIsPresent(this.props.editorContent)) {
-    //   console.log('missing!"')
-    //   return;
-    // }
-
     this.state = {
     	editorState: props.editorContent,
     	contentId: props.id, 
@@ -56,6 +51,15 @@ class RichEditor extends React.Component {
     this.onTab = this._onTab.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.currentPageId !== nextProps.currentPageId) {
+      this.setState({ 
+        currentPageId: nextProps.currentPageId,
+        editorState: nextProps.editorContent,
+      });
+    }
   }
 
   _handleKeyCommand(command, editorState) {
@@ -109,16 +113,14 @@ class RichEditor extends React.Component {
 
   render() {
     const editorState = this.state.editorState;
-    // if (!this.props.currentPageId || !contentIsPresent(editorState)) {
     if (!contentIsPresent(editorState)) {
-      console.log('missing!"')
       return (
         <div className="loading">
           <h1>Editor is loading your content</h1>
         </div>
       );
     }
-    // const editorState = this.props.editorContent;
+
     const { InlineToolbar } = inlineToolbarPlugin;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.

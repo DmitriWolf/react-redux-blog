@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ContentDisplayContainer from '../containers/ContentDisplayContainer';
-import RichEditorContainer from '../containers/RichEditorContainer';
+import ComponentView from './ComponentView';
 import { contentIsPresent } from '../utils';
 import '../css/PageView.css';
 
@@ -9,8 +8,9 @@ class PageView extends Component {
 		super(props);
 
 		this.state = {
-			editMode: true,
-      currentPage: props.pageId,
+      editMode: true,
+      currentPageId: props.currentPageId,
+      allPageIds: this.props.allPageIds || [],
 		};
 	}
 
@@ -21,60 +21,46 @@ class PageView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.pageId !== nextProps.pageId) {
-      this.setState({ currentPage: nextProps.pageId});
+    if(this.props.currentPageId !== nextProps.currentPageId) {
+      this.setState({ currentPageId: nextProps.currentPageId});
     }
-  }
-
-  editContent = () => {
-    this.setState({ editMode: true });
+    if(this.props.allPageIds !== nextProps.allPageIds) {
+      this.setState({ allPageIds: nextProps.allPageIds});
+    }
   }
 
   addNewPage = () => {
     this.props.addNewPage();
   }
 
-	stopEditingContent = () => {
-		this.setState({ editMode: false });
-	}
-
   selectPage = pageId => {
-    console.log('set pageId to ', pageId);
-    this.setState({ currentPage: pageId });
+    this.setState({ currentPageId: pageId });
   }
 
   render() {		
-    if(!this.props.pageId) {
+    const menuContent = () => {
       return (
-        <div className="loading">
-          <h1>Loading...</h1>
+        <div className="nav-bar">
+          <ul>
+            {
+              this.state.allPageIds.map(pageId => {
+                return (
+                  <li
+                    key={`link-${pageId}`} 
+                    onClick={() => this.selectPage(pageId)} 
+                    value={pageId}
+                  >
+                    {pageId}
+                  </li>
+                );
+              })
+            }
+          </ul>
         </div>
       );
     }
 
-    // const menuContent = () => {
-    //   return (
-    //     <div className="nav-bar">
-    //       <ul>
-    //         {
-    //           Object.keys(this.props.content).map(pageId => {
-    //             return (
-    //               <li
-    //                 key={`link-${pageId}`} 
-    //                 onClick={() => this.selectPage(pageId)} 
-    //                 value={pageId}
-    //               >
-    //                 {pageId}
-    //               </li>
-    //             );
-    //           })
-    //         }
-    //       </ul>
-    //     </div>
-    //   );
-    // }
-
-    const pageContent = () => {
+    const editButtons = () => {
       if(this.state.editMode) {
         return (
           <div>
@@ -84,24 +70,19 @@ class PageView extends Component {
             <button className="edit-button new-page" onClick={this.addNewPage}>
               Add New Page
             </button>
-            <RichEditorContainer 
-              currentPageId={this.state.currentPage}
-            /> 
           </div>
         );
-      } else {
-        return (
-          <ContentDisplayContainer
-            currentPage={this.state.currentPage}
-          /> 
-        );
       }
-    }
+    };
 
     return (
-    	<div className="view-area" onClick={(this.state.editMode) ? null : this.editContent}>
-        {pageContent()}
-    	</div>
+      <div className="page-view">
+        {menuContent()}
+        {editButtons()}
+        <ComponentView
+          currentPageId={this.state.currentPageId}
+        /> 
+      </div>
     );
   }
 }

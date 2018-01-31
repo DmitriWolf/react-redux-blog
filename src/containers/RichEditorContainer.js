@@ -4,7 +4,12 @@ import { EditorState } from 'draft-js';
 import RichEditor from '../components/RichEditor'
 
 const mapStateToProps = (state, { currentPageId }) => {
-  const editorContent = EditorState.createWithContent(state.content[currentPageId].currentContents);
+  if(!currentPageId) {
+    return;
+  }
+
+  const content = state.content[currentPageId] && state.content[currentPageId].currentContents; 
+  const editorContent = EditorState.createWithContent(content);
 
   return { editorContent, currentPageId };
 }
@@ -13,10 +18,10 @@ const mapDispatchToProps = dispatch => {
   return {
     saveContent: (content) => {
       /*
-            const content = {
-              id: this.state.contentId,
-              content: currentContent,
-            };
+        const content = {
+          id: this.state.contentId,
+          currentContents: currentContent,
+        };
       */
       dispatch(saveContent(content));
     }
