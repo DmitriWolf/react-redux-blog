@@ -8,6 +8,7 @@ button.edit-mode, button.new-page{
 }
 
 button.edit-mode, button.new-page, .nav-bar li {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 1rem;
 	padding-bottom: .8rem;
 	padding: 8px 12px;
