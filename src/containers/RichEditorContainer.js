@@ -17,12 +17,6 @@ const mapStateToProps = (state, { currentPageId }) => {
 const mapDispatchToProps = dispatch => {
   return {
     saveContent: (content) => {
-      /*
-        const content = {
-          id: this.state.contentId,
-          currentContents: currentContent,
-        };
-      */
       dispatch(saveContent(content));
     }
   }

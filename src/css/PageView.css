@@ -1,5 +1,6 @@
 .view-area {
 	position: relative;
+	margin-top: 20px;
 }
 
 button.edit-mode, button.new-page{
@@ -31,6 +32,9 @@ button.edit-mode:hover, button.new-page:hover, .nav-bar li:hover {
 	transform: translate(0, -1px);
 	background: #ddd;
 	background: #ddd;
+}
+.nav-bar {
+	margin-top: 20px;
 }
 
 .nav-bar ul {
