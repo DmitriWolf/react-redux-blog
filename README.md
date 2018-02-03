@@ -2,7 +2,7 @@
 A blogging software built with [React](https://reactjs.org/), [Redux](https://redux.js.org/), and [DraftJS](https://draftjs.org/).
 
 ## Front End Only
-This has no backend. You may plug it into any backend you want, including Firebase, and WordPress. 
+This is set up to use browser cookies for persistance. Those functions are in the `utils` folder and can be updated to make api calls.
 
 ### Rich Text Editing
 DraftJS gives us a rich text editing experience. React gives us seamless flow.
